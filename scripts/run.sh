@@ -8,17 +8,9 @@ base_dir=/Users/heste/workspace/soccernet/sn-providing/outputs/demo-step2
 # base_dir 以下の任意のサブディレクトリから commentary.srt を再帰的に探す
 srt_files=("$base_dir"/**/commentary-full-en.srt)
 
-if [ ${#srt_files[@]} -eq 0 ]; then
-    echo "No commentary.srt found in $base_dir"
-    exit 1
-fi
 
 # モデルファイルのパス
 model_file="download/en_GB-northern_english_male-medium.onnx"
-if [ ! -f "$model_file" ]; then
-    echo "Model file not found: $model_file"
-    exit 1
-fi
 
 # 各 commentary.srt に対して処理を実行
 for srt_file in "${srt_files[@]}"; do
