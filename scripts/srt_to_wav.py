@@ -76,8 +76,7 @@ def main(args: Args):
     
     func_syn = synthesize_text
     if args.lang == "ja":
-        subs = preprocess_srt(subs)
-        func_syn = syntesize_text_openjtalk
+        func_syn = partial(syntesize_text_openjtalk)
         print("Ja mode")
     else:
         func_syn = partial(synthesize_text, voice=voice)
@@ -103,7 +102,7 @@ def main(args: Args):
             continue
         
         # テキストから音声を合成
-        synthesized = func_syn(text)
+        synthesized = func_syn(text=text)
         # 合成された音声が許容時間を超える場合はトリミング
         if len(synthesized) > allowed_duration:
             synthesized = synthesized[:allowed_duration]
