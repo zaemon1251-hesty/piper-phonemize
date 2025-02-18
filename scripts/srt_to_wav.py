@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-import deepl
-import os
 import io
 import wave
 import pysrt
@@ -13,10 +11,6 @@ from typing import Literal
 from functools import partial
 
 
-DEEPL_API_KEY = os.environ.get('DEEPL_API_KEY')
-translator = deepl.Translator(DEEPL_API_KEY)
-
-# tapにする
 class Args(Tap):
     model_file: str
     config_file: str = None
@@ -24,16 +18,6 @@ class Args(Tap):
     output_wav: str
     lang: Literal["ja", "en"] = "en"
 
-
-def preprocess_srt(subs: pysrt.SubRipFile):
-    """
-    deeplで英語を全て日本語にしておく
-    """
-    for sub in subs:
-        sub.text = translator.translate_text(sub.text, target_lang="JA").text
-    
-    subs.save(args.input_srt)
-    return subs
 
 def synthesize_text(voice: PiperVoice, text):
     """
